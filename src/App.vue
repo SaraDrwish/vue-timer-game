@@ -1,31 +1,47 @@
 <template>
    <h1> reaction timer game </h1>
-   <button @click="start" :disabled="isPlaying" >play</button>
-   <Block v-if="isPlaying" v-bind:delay="delay"/>
+   <button @click="start" :disabled="isPlaying"   >play</button>
+   <Block v-if="isPlaying" :delay="delay"  @end="endGame" />  
+   <!-- if we hashed this last unmounted will appear -->
+   <!-- <p v-if="showResults">reaction time is : {{ score }}  ms </p> -->
+   <Result  v-if="showResults" :score="score"  />
 </template>
 
 <script>
 
 import Block from "./components/Block.vue"
- 
+import Result from "./components/Result.vue" 
+
 export default {
   name: 'App',
   components: { 
-    Block
+    Block,
+    Result
   },
   data() {
     return {
       isPlaying: false,
-      delay: null
+      delay: null,
+      score: null,
+      showResults: false
     }
   },
   methods: {
+
     start() {
-      this.delay = 2000 + Math.random() * 5000
+      this.delay = 2000 + Math.random() * 2000
       this.isPlaying = true;
-      console.log(this.delay)
+      this.showResults = false
+      // console.log(this.delay)
+    },
+    endGame(reaction) {
+      this.score = reaction
+      this.isPlaying = false
+      this.showResults = true
     }
+
   }
+
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="block">
+  <div class="block" v-if="showBlock" @click="stopTimer">
      click
   </div>
 </template>
@@ -8,7 +8,42 @@
 
 export default {
 
-  props:["delay"]
+  props: ["delay"],
+  data() {
+    return {
+      showBlock: false,
+      time: null,
+      reaction:0
+  }  
+  },
+  mounted() {
+    console.log("mounted");
+    setTimeout(() => {
+      this.showBlock = true;
+      this.startTimer()
+      // console.log(this.delay)
+    } , this.delay )
+  },
+  // updated() {
+  //   console.log("updated")
+  // },
+  // unmounted() {
+  //   console.log("unmounted")
+  // },
+  methods: {
+    startTimer() {
+      this.time=
+        setInterval(()=> {
+        this.reaction += 10
+      } , 10 )
+    },
+    stopTimer() {
+      clearInterval(this.time)
+      // console.log(this.reaction)
+      this.$emit('end', this.reaction)
+    }
+  }
+
 
 }
 
